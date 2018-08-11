@@ -10,4 +10,3 @@
 for the work done by others.
 * Please feel free to reach out, if you think I've not given (or forgot to give) proper credit to your work.
 * Most of my work uses algorithms from Tushar Roy and GeeksForGeeks and I try to modify and use it as I think was optimal.
-* Feel free to copy, replicate, modify and use the code as you want (Provided you give proper credits to the original authors)
