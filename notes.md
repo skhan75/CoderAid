@@ -37,9 +37,7 @@ For example, The Levenshtein distance between <i>kitten</i> and <i>sitting</i> i
   * If s1[ i ] == s2[ j ], we copy the operation # at T[ i-1 ] [ j-1 ]
   * Else, we take the value of
     ```python
-    1 + min (
-      T[ i-1 ] [ j-1 ], T[ i ] [ j-1 ], T [ i-1 ] [ j-1 ]
-    )
+    T[i][j] = 1 + min ( T[i-1][j-1], T[i][j-1], T[i-1][j-1] )
     ```
   In above example, the answer is 3.
 
@@ -56,3 +54,29 @@ For example, The Levenshtein distance between <i>kitten</i> and <i>sitting</i> i
       S2 = CACCCCTAAGGTACCTTTGGTTC
 
       LCS is ACCTAGTACTTTG
+
+  #### Example
+
+  * Lets say we have two strings `abcdaf` and `acbcf` as s1 and s2, represented in a 2D matrix T.
+  * Fill row at `T[0][1]` and column at `T[1][0]` with all 0s. Since if there doesn't exist either of string, there is no common subsequence.
+  * Now check for how many common subsequences can be formed by considering strings in range s1[ 0 : i ] and s2[ 0 : j ].
+  * If the character at `s1[i] != s2[j]`, then pick the length of common subsequence from  whatever the max is at left and top
+  ```python
+    T[i][j] = max(T[i-1][j], T[i][j-1])
+  ```
+  * Else if `s1[i] == s2[j]`, then pick the length of common subsequence from `T[i-1][j-1]` and add 1.
+  ```python
+    T[i][j] = 1 + T[i-1][j-1]
+  ```
+  * Using the above relations, we fill our table as follows:
+
+    |   |   | a | b | c | d | a | f |
+    |---|---|---|---|---|---|---|---|
+    |   | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+    | a | 0 | 1 | 1 | 1 | 1 | 1 | 1 |
+    | c | 0 | 1 | 1 | 2 | 2 | 2 | 2 |
+    | b | 0 | 1 | 2 | 2 | 2 | 2 | 2 |
+    | c | 0 | 1 | 2 | 3 | 3 | 3 | 3 |
+    | f | 0 | 1 | 2 | 3 | 3 | 3 | <b>4<b> |
+
+    In above example, the answer of our longest common subsequence is 4.
