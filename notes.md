@@ -7,6 +7,9 @@ Below are the few commonly used algorithms from our day to day life:
 
 
 ## Minimum Edit Distance
+
+https://github.com/skhan75/CoderAid/blob/master/Algorithms/DynamicProgramming/minimum_edit_distance.py
+
 * It is a way of quantifying how dissimilar two strings are to one another.
 
 * It works on <b>Levenshtein Distance</b> algorithm, which basically gives you the difference (edit distance) between two strings i.e. how many minimum INSERT, DELETE and SUBSTITUTE operations are required to turn one string into another.<br/>
@@ -43,6 +46,9 @@ For example, The Levenshtein distance between <i>kitten</i> and <i>sitting</i> i
 
 
 ## Longest Common Subsequence
+
+ https://github.com/skhan75/CoderAid/blob/master/Algorithms/DynamicProgramming/longest_common_subsequence.py
+
 * Finding the longest subsequence common to all sequences in a set of sequences (often just two sequences).
 
   #### Applications
