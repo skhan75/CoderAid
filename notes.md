@@ -44,5 +44,15 @@ For example, The Levenshtein distance between <i>kitten</i> and <i>sitting</i> i
   In above example, the answer is 3.
 
 
+## Longest Common Subsequence
+* Finding the longest subsequence common to all sequences in a set of sequences (often just two sequences).
 
-  
+  #### Applications
+  * The longest common subsequence problem is a classic computer science problem, the basis of data comparison programs such as the `diff utility`.
+  * It is also widely used by revision control systems such as <b>Git</b> for reconciling multiple changes made to a revision-controlled collection of files.
+  * In Molecular biology, DNA sequences (genes) can be represented as sequences of four letters ACGT, corresponding to the four submolecules forming DNA. When biologists find a new sequences, they typically want to know what other sequences it is most similar to. One way of computing how similar two sequences are is to find the length of their longest common subsequence.
+    * S1 = AAACCGTGAGTTATTCGTTCTAGAA
+
+      S2 = CACCCCTAAGGTACCTTTGGTTC
+
+      LCS is ACCTAGTACTTTG
