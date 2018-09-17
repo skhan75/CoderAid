@@ -162,4 +162,12 @@ For example, The Levenshtein distance between <i>kitten</i> and <i>sitting</i> i
       Hence the total time complexity becomes `O(2`<sup>`n`</sup>`)` which is exponentially high --> <b>Very Slow !</b>
 
     * <b><u>Optimization using Dynamic Programming:</b></u>
-    
+      https://github.com/skhan75/CoderAid/blob/master/Algorithms/DynamicProgramming/longest_increasing_subsequence.py
+
+      * <b>Approach-1 ( `O(n^2)` complexity )</b>:
+        * The basic idea here is to create a list (T) to memoize the LIS values from j -> i, so that we don't have to recompute LIS for the range that has already been computed. Hence getting rid of overlapping substructure problem.
+        * Create a Result array, T to store the LIS. T[i] is an LIS that ends with D[i].
+        * ` T[i] = 1 + MAX( T[j] | j < i & D[j] < D[i]) `
+        * This is approach solves the problem in quadratic time.
+        * To print the Actual elements:
+          * Maintain a solution_indices list that stores the index j for
