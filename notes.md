@@ -143,3 +143,23 @@ For example, The Levenshtein distance between <i>kitten</i> and <i>sitting</i> i
          x += 2
      }
     ```
+
+  #### Example
+
+    * <b><u>Brute Force Algorithm Analysis:</b></u>
+
+      Let D be a Vector of length N.
+      ```
+      1. for i in N -> 0:
+      2.  Find all the subsequence of D with length of i
+      3.  if (there is one increasing subsequence):
+      4.    break
+      ```
+
+      In the above algorithm, for line # 2, it takes `N! / i! (N-i)!`.
+
+      Now, #2 is executed N times for the length of the vector D.
+      Hence the total time complexity becomes `O(2`<sup>`n`</sup>`)` which is exponentially high --> <b>Very Slow !</b>
+
+    * <b><u>Optimization using Dynamic Programming:</b></u>
+    
