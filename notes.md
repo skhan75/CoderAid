@@ -170,4 +170,21 @@ For example, The Levenshtein distance between <i>kitten</i> and <i>sitting</i> i
         * ` T[i] = 1 + MAX( T[j] | j < i & D[j] < D[i]) `
         * This is approach solves the problem in quadratic time.
         * To print the Actual elements:
-          * Maintain a solution_indices list that stores the index j for
+          * Maintain a solution_indices list that stores the index j for which the above condition is held true.
+          * Using this solution_indices list you can backtrack to the indexes that gives the LIS.
+
+      * <b>Approach-2 ( `O(nlogn)` complexity )</b>:
+        * In the above approach we can observe that in the second for loop,
+          we iteratively check for T[i] which satisfies the condition `j < i & D[j] < D[i]`, but we can do better than this, if we use Binary Search to find the ceil of the current element.
+        * We adopt the following strategy: ( Refer to the code for complete implementation)
+        ```
+          Case 1:
+            If D[i] is the smallest among all end candidates of the Active list,
+            then we'll start a new active list of length 1.
+          Case 2:
+            If D[i] is largest among all the end candidates of Active list,
+            then we'll clone the largest active list and extend it by D[i]
+          Case 3:
+            If D[i] is in between, we'll find a list with the largest end element that is
+            smaller than D[i]. Clone and extend this list by D[i]. We'll discard all other lists of same length as that of this modified list.
+        ```
