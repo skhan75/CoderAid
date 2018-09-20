@@ -193,8 +193,7 @@ For example, The Levenshtein distance between <i>kitten</i> and <i>sitting</i> i
 * Finding a length M in a text of length N (typically, N >> M)
 * Example:
 
-  <i>pattern</i> --> N E E D L E
-
+  <i>pattern</i> --> N E E D L E  
   <i>text</i> --> I N A H A Y S T A C K I N A <u>N E E D L E</u> I N A
 
   #### Applications
@@ -212,7 +211,7 @@ For example, The Levenshtein distance between <i>kitten</i> and <i>sitting</i> i
   * <b>Screen scraping</b> Extract relevant data from web page.
 
   #### Example
-  * <u><b>Brute Force Analysis</b></u>:
+  * <b>Brute Force Analysis</b></u>:
     * Check for Pattern starting at each text position.
     * Selecting <i>i</i> for each character, iterate <i>j</i> for M characters, till it successfully find the last character.
     * Brute-force algorithm can be slow if text and pattern are repetitive.
