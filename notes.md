@@ -194,7 +194,7 @@ For example, The Levenshtein distance between <i>kitten</i> and <i>sitting</i> i
 * Example:
 
   <i>pattern</i> --> N E E D L E  
-  <i>text</i> --> I N A H A Y S T A C K I N A ( N E E D L E ) I N A
+  <i>text</i> --> I N A H A Y S T A C K I N A ` N E E D L E ` I N A
 
   #### Applications
 
