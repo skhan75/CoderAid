@@ -176,7 +176,7 @@ For example, The Levenshtein distance between <i>kitten</i> and <i>sitting</i> i
       * <b>Approach-2 ( `O(nlogn)` complexity )</b>:
         * In the above approach we can observe that in the second for loop,
           we iteratively check for T[i] which satisfies the condition `j < i & D[j] < D[i]`, but we can do better than this, if we use Binary Search to find the ceil of the current element.
-        * We adopt the following strategy: ( Refer to the code for complete implementation)
+        * We adopt the following strategy: ( Refer to the code for complete   implementation)
         ```
           Case 1:
             If D[i] is the smallest among all end candidates of the Active list,
@@ -188,3 +188,35 @@ For example, The Levenshtein distance between <i>kitten</i> and <i>sitting</i> i
             If D[i] is in between, we'll find a list with the largest end element that is
             smaller than D[i]. Clone and extend this list by D[i]. We'll discard all other lists of same length as that of this modified list.
         ```
+
+## Sub String Search
+* Finding a length M in a text of length N (typically, N >> M)
+* Example:
+
+  <i>pattern</i> --> N E E D L E
+
+  <i>text</i> --> I N A H A Y S T A C K I N A <u>N E E D L E</u> I N A
+
+  #### Applications
+
+  * <b>Computer forensics</b>: Search memory or disk for signatures,
+  e.g., all URLs or RSA keys that the user has entered.
+  * <b>Identify patterns indicative of spam</b>:
+    * PROFITS
+    * L0SE WE1GHT
+      * herbal Viagra
+      * There is no catch.
+      * This is a one-time mailing.
+      * This message is sent in compliance with spam regulations.
+
+  * <b>Screen scraping</b> Extract relevant data from web page.
+
+  #### Example
+  * <u><b>Brute Force Analysis</b></u>:
+    * Check for Pattern starting at each text position.
+    * Selecting <i>i</i> for each character, iterate <i>j</i> for M characters, till it successfully find the last character.
+    * Brute-force algorithm can be slow if text and pattern are repetitive.
+    * Worst case compute complexity ~ M N char compares --> `O(MN)`
+    * One of the biggest disadvantage of this approach is when you have a Real-time textual input and you have to find the substring in real-time. So doing a <i>backup</i> approach where your pointer <i> i </i> points back (deep left) for each M comparisons.
+    This becomes highly inefficient and we want to avoid this backup.
+    * Brute-force algorithm needs backup for every mismatch.
