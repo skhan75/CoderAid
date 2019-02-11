@@ -1,5 +1,8 @@
 """
-Given a set of time intervals, merge all overlapping intervals into one and output the result
+Given a set of time intervals, merge all overlapping intervals into one and output the result.
+COMPLEXITY:
+    - Runtime: O(n)
+    - Space: O(n) for the stack
 """
 
 def does_not_overlap_at_all(start_time_child, end_time_child, start_time_parent, end_time_parent):
