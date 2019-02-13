@@ -15,6 +15,9 @@ def canRepresentBST(pre):
         #NOTE:value is equal to pre[i] according to the
         #given algo
 
+        print ("\nVAL", value)
+        print ("STACK", s)
+        print ("ROOT", root)
         # If we find a node who is on the right side
         # and smaller than root, return False
         if value < root :
@@ -33,7 +36,7 @@ def canRepresentBST(pre):
     return True
 
 # Driver Program
-pre1 = [40 , 30 , 35 , 80 , 100]
-print "true" if canRepresentBST(pre1) == True else "false"
-pre2 = [40 , 30 , 35 , 20 ,  80 , 100]
-print "true" if canRepresentBST(pre2) == True else "false"
+pre1 = [51, 41, 45, 81, 111]
+print ("true" if canRepresentBST(pre1) == True else "false")
+# pre2 = [40 , 30 , 35 , 20 ,  80 , 100]
+# print "true" if canRepresentBST(pre2) == True else "false"
