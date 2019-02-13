@@ -9,20 +9,52 @@ class Node:
         self.left = None
         self.right = None
 
-def inOrderSuccessor(root, n):
+def inOrderSuccessor(root, data):
 
-    # Step 1 of the above algorithm
-    if n.right is not None:
-        return minValue(n.right)
+    # Search the Node -- O(h)
+    current = find(root, data)
 
-    # Step 2 of the above algorithm
-    p = n.parent
-    while( p is not None):
-        if n != p.right :
-            break
-        n = p
-        p = p.parent
-    return p
+    if current == None:
+        return None
+
+    # Case-1 When Node has a right subtree
+    if current.right != None:
+        temp = current.right
+
+        while temp.left is not None:
+            temp = temp.left
+
+        return temp
+
+    # Case-2 When Node has no right subtree
+    successor = None
+    ancestor = root
+
+    while ancestor != current:
+        if current.data < ancestor.data:
+            successor = ancestor
+            ancestor = ancestor.left
+        else:
+            ancestor = ancestor.right
+
+    return successor
+
+
+
+def find(root, data):
+    if root is None:
+        return None
+
+    if root.data == data:
+        return root
+
+    elif root.data < data:
+        return find(root.right, data)
+
+    else:
+        return find(root.left, data)
+
+
 
 # Given a non-empty binary search tree, return the
 # minimum data value found in that tree. Note that the
@@ -34,7 +66,7 @@ def minValue(node):
     while(current is not None):
         if current.left is None:
             break
-        current = current.data
+        current = current.left
 
     return current
 
@@ -77,12 +109,11 @@ root = insert(root, 4);
 root = insert(root, 12);
 root = insert(root, 10);
 root = insert(root, 14);
-temp = root.left.right.right
+succ_of = root.left.right.right
 
-succ = inOrderSuccessor( root, temp)
+succ = inOrderSuccessor( root, succ_of.data)
 if succ is not None:
-    print "\nInorder Successor of %d is %d " \
-            %(temp.data , succ.data)
+    print ("\nInorder Successor of %d is %d " \
+            %(succ_of.data , succ.data))
 else:
-    print "\nInorder Successor doesn't exist"
- 
+    print ("\nInorder Successor doesn't exist")

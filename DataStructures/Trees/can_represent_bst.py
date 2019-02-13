@@ -1,5 +1,4 @@
 """ Check if a given array can represent Preorder Traversal of Binary Search Tree """
-import sys
 
 def can_represent_bst(array):
 
@@ -7,15 +6,14 @@ def can_represent_bst(array):
     s = []
 
     # Initialize current root as minimum possible value
-    root = -sys.maxint
+    root = float("-inf")
 
     # Traverse given array
     for value in array:
-
         # If we find out a node on the right hand side which is smaller than
         # the root, return False
         if value < root:
-            return False;
+            return False
 
         # Keep removing items smaller than value and make the last removed
         # item as the new root
@@ -31,5 +29,5 @@ def can_represent_bst(array):
 
 
 if __name__ == "__main__":
-    input = [40, 30, 35, 80, 100]
-    print can_represent_bst(input)
+    input = [51, 41, 45, 81, 111]
+    print (can_represent_bst(input))

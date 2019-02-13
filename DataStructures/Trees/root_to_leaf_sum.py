@@ -1,3 +1,7 @@
+"""
+Ref: https://www.youtube.com/watch?v=Jg4E4KZstFE
+"""
+
 # binary tree node contains data field ,
 # left and right pointer
 class Node:
@@ -47,5 +51,5 @@ root.left.left = Node(3)
 root.left.right = Node(5)
 root.right.left = Node(2)
 
-print check_path_with_sum(root, 23, [])
-print check_path_with_sum(root, 11, [])
+print (check_path_with_sum(root, 23, []))
+print (check_path_with_sum(root, 11, []))
