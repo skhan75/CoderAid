@@ -73,6 +73,6 @@ Now real time Post-Processing or Querying:
 
 Finally:
  - Do a post-order traversal of the graph, computing the number of paths that visited that node. The logic for this is as follows: the total number of paths that visited node a is equal to the sum of the numbers of paths that visited each of its children, minus the sum of the numbers of times that each of its children was the last common ancestor of a path's endpoint, plus the number of times that a itself was an endpoint, minus the number of times that a itself was the last common ancestor of a path's endpoint (to cancel out double-counting).
- - Return the node for which the previous step returned the greatest number. If multiple nodes are tied for greatest, then . . . I dunno, the problem statement was vague about this, you'll need to ask for requirements.
-
+ - Return the node for which the previous step returned the greatest number.
+ 
 Overall, this requires O(N^2) preprocessing, O(Q) realtime processing per query, and O(N) postprocessing.
