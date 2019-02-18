@@ -2,7 +2,7 @@
 
 This is a very classic example of FOF (Friends of Friends) type of implementation where you want to find the most ranked mutual connection among all the connections.
 
-####Example
+#### Example
 
 Given N nodes, connected by exactly N-1 edges (there is exactly 1 shortest path from one node to any other node) and Q queries, which tell source node and the destination nodes.
 
@@ -16,7 +16,7 @@ For example, Q queries are:
 
 So travel from node 1 to node 5, then from node 2 to node 4, then from node 3 to node 1. Finally, find what is the most visited node after the Q queries.
 
-####Analysis
+#### Analysis
 
 **Naive Approach:**
 
