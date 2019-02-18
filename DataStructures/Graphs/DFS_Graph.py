@@ -33,7 +33,7 @@ g.add_edge(2, 0)
 g.add_edge(2, 3)
 g.add_edge(3, 3)
 #
-print "Following is DFS from (starting from vertex 2)"
+print ("Following is DFS from (starting from vertex 2)")
 g.DFS(2)
 
 
@@ -49,9 +49,11 @@ class Graph:
         self.graph[u].append(v)
 
     def DFS(self):
+        print (self.graph)
         V = len(self.graph)
         visited = set()
-        vertices = self.graph.keys()
+        vertices = list(self.graph.keys())
+        print ('VERTICES', vertices)
 
         # Call the recursive helper function to print
         # DFS traversal starting from all vertices one
@@ -78,5 +80,5 @@ g.add_edge(2, 0)
 g.add_edge(2, 3)
 g.add_edge(3, 3)
 
-print "Following is Depth First Traversal"
+print ("Following is Depth First Traversal")
 g.DFS()
