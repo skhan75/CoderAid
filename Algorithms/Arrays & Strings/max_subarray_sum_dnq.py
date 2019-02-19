@@ -20,10 +20,12 @@ Complexity: O(nlogn)
 def max_crossing_sum(arr, left, mid, right):
     # Include elements on left of mid.
     sum = 0
+    print (left, mid, right)
     left_sum = float("-inf")
 
     # Iterate in reverse from mid --> left - 1 for left sum
     for i in range(mid, left-1, -1):
+        print (i)
         sum  += arr[i]
 
         if (sum > left_sum) :
