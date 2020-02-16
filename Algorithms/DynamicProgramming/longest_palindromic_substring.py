@@ -1,6 +1,10 @@
 # A O(n^2) time and O(1) space program to find the
 #longest palindromic substring
 
+"""
+    Runtime: 1044 ms, faster than 63.87% of Python3 online submissions for Longest Palindromic Substring.
+    Memory Usage: 12.8 MB, less than 100.00% of Python3 online submissions for Longest Palindromic Substring.
+"""
 # This function prints the longest palindrome substring (LPS)
 # of str[]. It also returns the length of the longest palindrome
 def longestPalSubstr(string):
