@@ -47,7 +47,6 @@ def minimum_window_substring(s, t):
         if window_counts[right_char] == t_map[right_char]:
             formed += 1
 
-        print("RIGHT CHAR", right_char)
 
         # Now if all the characters have been seen and formed is now equal to required size of pattern
         # we can move the left pointer towards right
@@ -55,15 +54,10 @@ def minimum_window_substring(s, t):
             # Get the character where left pointer is pointing to
             left_char = filtered_s[left][1]
 
-            print ("LEFT CHAR", left_char)
-
             # And now check if the reduced window size has all the characters
             # Either ways save the smallest window possible
             start = filtered_s[left][0]
             end = filtered_s[right][0]
-
-            print("START", start)
-            print("END", end)
 
             if end-start+1 < ans:
                 ans = end-start+1
@@ -71,7 +65,6 @@ def minimum_window_substring(s, t):
 
             # Decreament that character count as that has been seen
             window_counts[left_char] -= 1
-            print("WINDOW COUNTS", window_counts)
             # Now reduce the window size moving left towards right
             # and check if window_counts has still all the elemernts
             # If not, decremanet formed, so the right can move more right
