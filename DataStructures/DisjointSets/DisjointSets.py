@@ -68,6 +68,7 @@ class DisjointSet:
             return parent
 
         node.parent = self.find_set_util(node.parent)
+
         return node.parent
 
 if __name__ == '__main__':
