@@ -83,7 +83,7 @@ def longestIncreasingPathMemoized(mat):
         return 0
 
     r, c = len(mat), len(mat[0])
-    cache = [[0 for i in range(r)] for j in range(c)]
+    cache = [[0 for i in range(c)] for j in range(r)]
     ans = 0
 
     for i in range(r):
@@ -111,11 +111,30 @@ def dfs(mat, i, j, cache):
 
     return cache[i][j]
 
+def longestIncreasingPath(matrix):
+    if not matrix: return 0
+    m = len(matrix); n = len(matrix[0])
+    dp = [[0 for i in range(n)] for j in range(m)]
+
+    def helper(i,j):
+        if not dp[i][j]:
+            val = matrix[i][j]
+
+            dp[i][j] = 1+max(helper(i+1,j) if i < m-1 and val > matrix[i+1][j] else 0,
+                            helper(i-1,j) if i > 0 and val > matrix[i-1][j] else 0,
+                            helper(i,j+1) if j < n-1 and val > matrix[i][j+1] else 0,
+                            helper(i,j-1) if j > 0 and val > matrix[i][j-1] else 0)
+
+        return dp[i][j]
+
+    return max(helper(i,j) for i in range(m) for j in range(n))
+
 
 if __name__ == "__main__":
+    # nums = [[1,2]]
     nums = [[3,4,5],
             [3,2,6],
             [2,2,1]]
 
     # print longestIncreasingPathNaive(nums)
-    print longestIncreasingPathMemoized(nums)
+    print longestIncreasingPath(nums)

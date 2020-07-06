@@ -49,11 +49,9 @@ class Graph:
         self.graph[u].append(v)
 
     def DFS(self):
-        print (self.graph)
         V = len(self.graph)
         visited = set()
         vertices = list(self.graph.keys())
-        print ('VERTICES', vertices)
 
         # Call the recursive helper function to print
         # DFS traversal starting from all vertices one
