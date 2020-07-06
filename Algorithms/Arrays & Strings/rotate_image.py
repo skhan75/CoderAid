@@ -2,9 +2,14 @@ def rotate_image(mat):
     #mat = [[None for i_ in range(int(N))] for j in range(int(N))]
     N = len(mat)
     for layer in range(N // 2):
+        print "Layer", layer
+
         first, last = layer, N-layer-1
+        print first, last
         for i in range(first, last):
             offset = i - first
+
+            print "offset", offset
 
             # save top
             top = mat[layer][i]
