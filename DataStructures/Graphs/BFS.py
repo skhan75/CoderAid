@@ -5,6 +5,7 @@ from collections import defaultdict
 
 # This class represents a directed graph
 # using adjacency list representation
+
 class Graph:
 
     # Constructor
@@ -49,7 +50,7 @@ class Graph:
 
 # Driver code
 
-# Create a graph given in
+# Create a directed graph given in
 # the above diagram
 g = Graph()
 g.addEdge(0, 1)
@@ -61,4 +62,4 @@ g.addEdge(3, 3)
 
 print ("Following is Breadth First Traversal"
                   " (starting from vertex 2)")
-g.BFS(2) 
+g.BFS(2)

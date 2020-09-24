@@ -65,7 +65,6 @@ class Graph:
         while queue:
             # Dequeue a vertex from queue and print it
             source = queue.pop(0)
-            print (source)
             # Iterate through all the adjacent vertices from the given source
             for vertex in self.vertices[source]:
                 # if the vertex is not visited append it the queue and mark it as visted

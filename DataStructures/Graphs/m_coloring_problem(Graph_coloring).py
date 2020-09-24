@@ -12,6 +12,9 @@ class Graph():
     # is safe for vertex v
     def isSafe(self, v, colour, c):
         for i in range(self.V):
+            # Check for all the "i" neighbors of the current node "v" and
+            # check if they have been colored with all the m colors
+            # If yes, return False
             if self.graph[v][i] == 1 and colour[i] == c:
                 return False
         return True
@@ -19,11 +22,15 @@ class Graph():
     # A recursive utility function to solve m
     # coloring  problem
     def graphColourUtil(self, m, colour, v):
+        # If all vertices have been colored, then return true
         if v == self.V:
             return True
 
+        # Else iterate over all colors
         for c in range(1, m+1):
+            # If current vertex has a safe color
             if self.isSafe(v, colour, c) == True:
+                # Then color the current node
                 colour[v] = c
                 if self.graphColourUtil(m, colour, v+1) == True:
                     return True
@@ -41,6 +48,7 @@ class Graph():
         return True
 
 # Driver Code
+# Can we color the graph with m colors
 g  = Graph(4)
 g.graph = [[0,1,1,1], [1,0,1,0], [1,1,0,1], [1,0,1,0]]
 m=3

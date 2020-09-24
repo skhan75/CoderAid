@@ -22,7 +22,7 @@ def sumBitDifferences(arr,n):
         # count number of elements with i'th bit set
         count = 0
         for j in range(0,n):
-            # Check the AND operation between element and shit
+            # Check the AND operation between element and shift
             if ( (arr[j] & (1 << i)) ):
                 count+=1
 
