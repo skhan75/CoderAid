@@ -48,7 +48,7 @@ class Edge:
         return hash(u_vertex) + hash(v_vertex)
 
     def __str__(self):
-        return "Edge --> " + str(self.u_vertex) + " " + str(self.v_vertex) + " Weight-" + str(self.weight)
+        return "Edge --> " + str(self.u_vertex) + " " + str(self.v_vertex) + " Weight-" + str(self.w)
 
     def __repr__(self):
         return self.__str__()
@@ -94,13 +94,13 @@ if __name__ == "__main__":
     g.add_edge(1,4,6)
 
     print('\nEDGES\n')
-    for edge in g.edges:
+    for edge in g.all_edges:
         print(edge)
 
     print('\nVERTICES')
-    for vertex in g.vertices:
+    for vertex in g.all_vertices:
         print
-        print(str(g.vertices[vertex]))
+        print(str(g.all_vertices[vertex]))
         print('Associated Edges')
-        for edge in g.vertices[vertex].edges:
+        for edge in g.all_vertices[vertex].edges:
             print(str(edge))

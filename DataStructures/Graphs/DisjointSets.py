@@ -14,7 +14,6 @@
 #   Therefore, complexity becomes O(4m), which is equivalent to O(m)
 
 class Node:
-
     def __init__(self, data, parent=None, rank=0):
         # Data is used to store the data
         self.data = data
@@ -27,7 +26,6 @@ class Node:
         return str(self.data)
 
 class DisjointSet:
-
     def __init__(self):
         self.map = {}
 
@@ -68,6 +66,7 @@ class DisjointSet:
             return parent
 
         node.parent = self.find_set_util(node.parent)
+
         return node.parent
 
 if __name__ == '__main__':

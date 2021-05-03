@@ -19,8 +19,6 @@ def longest_increasing_subsequence_n2(input):
                 T[i] = T[j] + 1
                 solution_indices[i] = j
 
-    print 'sol',solution_indices
-
     max_value = max(T)
     max_index = T.index(max_value)
 
@@ -112,8 +110,5 @@ def longest_increasing_subsequence_nlogn(input):
 if __name__ == "__main__":
     input = [ 3, 4, -1, 5, 8, 2, 3, 12, 7, 9, 10 ]
 
-    result_n2 = longest_increasing_subsequence_n2(input)
-    print "Result: ", result_n2
-
-    # result_nlogn = longest_increasing_subsequence_nlogn(input)
-    # print "Result: ", result_nlogn
+    assert longest_increasing_subsequence_n2(input) == 6
+    assert longest_increasing_subsequence_nlogn(input) == 6
