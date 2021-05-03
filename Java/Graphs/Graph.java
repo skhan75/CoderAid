@@ -176,49 +176,7 @@ public class Graph {
 				depthFirstSearch(neighbor);
 			}
 		}
-
 	}
-
-	// public void DFS(Node node, Set<Node> visited ) {
-	// 	// Add current node to the visited
-	// 	visited.add(node);
-
-	// 	// Get all the neighbors of the current node
-	// 	LinkedList<Node> allNeighbors = this.graphMap.get(node);
-		
-	// 	if(allNeighbors.isEmpty()) return;
-
-	// 	for(Node neighbor : allNeighbors) {
-	// 		if(!visited.contains(neighbor)) {
-	// 			DFS(neighbor, visited);
-	// 		}
-	// 	}
-	// }
-
-	// public int findMotherVertex(){
-
-	// 	Set<Node> visited = new HashSet<Node>();
-
-	// 	Node v;
-
-	// 	for(Map.Entry<Node, LinkedList<Node>> entry : this.graphMap.entrySet()) {			
-	// 		if(visited.contains(entry.getKey().key)){
-	// 			this.DFS(entry.getKey(), visited);
-
-	// 			// Assign the last finished vertex to v
-	// 			v = entry.getKey();
-	// 		}
-	// 	}
-
-	// 	// Now we do a DFS traversal once again from V to the other vertices and check 
-	// 	// if all the vertices are reachable from v
-	// 	visited = new HashSet<Node>();
-	// 	DFS(v, visited);
-	// 	// for(int i : visited) {
-
-	// 	// }
-	// 	return 1;
-	// }
 
 	public void resetNodesVisited(){
 	    for(Node node : this.graphMap.keySet()){
