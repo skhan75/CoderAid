@@ -21,7 +21,7 @@ class MinHeap:
         return self.get_right_child_index(index) < self.size
 
     def has_parent(self, index):
-        return self.get_parent_index >= 0
+        return self.get_parent_index(index) >= 0
 
     def left_child(self, index):
         return self.items[self.get_left_child_index(index)]
