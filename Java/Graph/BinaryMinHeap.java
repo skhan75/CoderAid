@@ -12,8 +12,8 @@
 import java.util.*;
 
 public class BinaryMinHeap<T> {
-	private List<Node> allNodes = new ArrayList<>();
-	private Map<T,Integer> nodePosition = new HashMap<>();
+	public List<Node> allNodes = new ArrayList<>();
+	public Map<T,Integer> nodePosition = new HashMap<>();
 	int size;
 
 	BinaryMinHeap() {
@@ -35,6 +35,14 @@ public class BinaryMinHeap<T> {
             return true;
         }
         return false;
+    }
+
+    public boolean containsData(T key){
+        return nodePosition.containsKey(key);
+    }
+
+    public boolean isEmpty(){
+        return allNodes.size() == 0;
     }
 
 	void add(int weight, T key) {
@@ -60,8 +68,8 @@ public class BinaryMinHeap<T> {
 		}
 	}
 
-	private Node extractMin() {
-		int size = allNodes.size() -1;
+	public Node extractMinNode() {
+		int size = allNodes.size() - 1;
         Node minNode = new Node(allNodes.get(0).weight, allNodes.get(0).key);
 
         int lastNodeWeight = allNodes.get(size).weight;
@@ -78,10 +86,10 @@ public class BinaryMinHeap<T> {
 		while(true){
             int left = 2*currentIndex + 1;
             int right = 2*currentIndex + 2;
-            if(left > size){
+            if(left > size) {
                 break;
             }
-            if(right > size){
+            if(right > size) {
                 right = left;
             }
             int smallerIndex = allNodes.get(left).weight <= allNodes.get(right).weight ? left : right;
@@ -89,17 +97,19 @@ public class BinaryMinHeap<T> {
                 swap(allNodes.get(currentIndex), allNodes.get(smallerIndex));
                 updatePositionMap(allNodes.get(currentIndex).key,allNodes.get(smallerIndex).key,currentIndex,smallerIndex);
                 currentIndex = smallerIndex;
-            }else{
+            } else {
                 break;
             }
         }
-
-		// minHeapify(currentIndex);
-
 		return minNode;
 	}
 
-	private void minHeapify(int pos) {
+	public T extractMin(){
+        Node node = extractMinNode();
+        return node.key;
+    }
+
+	public void minHeapify(int pos) {
 		if(!isLeaf(pos)) {
 			int leftChildIndex = (2*pos)+1;
 			int rightChildIndex = (2*pos)+2;
@@ -113,7 +123,27 @@ public class BinaryMinHeap<T> {
 		}
 	}
 
-	private void swap(Node node1,Node node2){
+	public void decrease(T key, int newWeight) {
+		int position = nodePosition.get(key);
+		allNodes.get(position).weight = newWeight;
+
+		int parentIndex = (position-1)/2;
+
+		heapifyUp(parentIndex, position);
+
+	}
+
+	public void heapifyUp(int parent, int child) {
+		if(parent>=0) {
+			if(allNodes.get(parent).weight > allNodes.get(child).weight) {
+				swap(allNodes.get(parent), allNodes.get(child));
+				updatePositionMap(allNodes.get(parent).key, allNodes.get(child).key, parent, child);
+				heapifyUp((parent-1)/2, parent); 
+			}
+		}
+	}
+
+	public void swap(Node node1,Node node2){
         int weight = node1.weight;
         T data = node1.key;
         
@@ -124,7 +154,7 @@ public class BinaryMinHeap<T> {
         node2.weight = weight;
     }
 
-    private void updatePositionMap(T key1, T key2, int val1, int val2){
+    public void updatePositionMap(T key1, T key2, int val1, int val2){
         nodePosition.remove(key1);
         nodePosition.remove(key2);
         nodePosition.put(key1, val1);
@@ -137,8 +167,17 @@ public class BinaryMinHeap<T> {
         }
     }
 
-    private void printPositionMap(){
+    public void printPositionMap(){
         System.out.println(nodePosition);
+    }
+
+    public Integer getWeight(T key) {
+        Integer position = nodePosition.get(key);
+        if( position == null ) {
+            return null;
+        } else {
+            return allNodes.get(position).weight;
+        }
     }
 
 
@@ -151,11 +190,16 @@ public class BinaryMinHeap<T> {
         heap.add(5, "Roy");
         heap.add(6, "NTF");
         heap.add(2,"AFR");
+
         heap.printHeap();
         heap.printPositionMap();
+        heap.decrease("Pramila", 0);
+        heap.decrease("Roy", 1);
 
-        System.out.println("Extracted Min --> "+heap.extractMin().key);
-        heap.decrease("Pramila", 1);
-        System.out.println("Extracted Min --> "+heap.extractMin().key);
+        System.out.println("Extracted Min --> "+heap.extractMin());
+        System.out.println("Extracted Min --> "+heap.extractMin());
+        System.out.println("Extracted Min --> "+heap.extractMin());
+        System.out.println("Extracted Min --> "+heap.extractMin());
+        System.out.println("Extracted Min --> "+heap.extractMin());
 	}
 }
