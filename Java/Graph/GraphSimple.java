@@ -1,7 +1,7 @@
 import java.util.*;
 
 
-public class Graph {
+public class GraphSimple {
 	int size = 0;
 	int noOfEdges = 0;
 	boolean isDirected = false;
@@ -9,12 +9,12 @@ public class Graph {
 	// Define a Map of Nodes and its ist of neighbors
 	HashMap<Node, LinkedList<Node>> graphMap;
 
-	public Graph() {
+	public GraphSimple() {
 		// Initialize a Map for the Graph object
 		graphMap = new HashMap<>();	
 	}
 
-	public Graph(boolean isDirected) {
+	public GraphSimple(boolean isDirected) {
 		// Initialize a Map for the Graph object
 		graphMap = new HashMap<>();	
 		this.isDirected = isDirected;
@@ -186,7 +186,7 @@ public class Graph {
 
 
 	public static void main(String[] args) {
-		Graph graph = new Graph();
+		GraphSimple graph = new GraphSimple();
 
 		// Create Graph Nodes
 		Node a = new Node(0, "A", false);
@@ -215,8 +215,6 @@ public class Graph {
 
 		System.out.println("DFS Traversal");
         graph.depthFirstSearch(a);
-
 	}
-
 }
 
