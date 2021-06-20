@@ -92,7 +92,6 @@ class GraphColoring {
 			// Check if current color is a valid color for coloring current adjacent vertex
 			if(isValid(node, color, curCol)) {
 				color[node] = curCol;
-				
 				// Now you try keeping the current node with current color, the combinations which color all the vertices with m color
 				// and once you find that combination, you just return true
 				if(graphColoringUtil(m, color, node+1)){
@@ -133,7 +132,12 @@ class GraphColoring {
         System.out.println("Coloring of graph 1");
         g.greedyColoring();
 
-        System.out.println("\nIs colorable with 3 colors? " + g.isMColorable(3));
+        System.out.println("Is colorable with 3 colors? " + g.isMColorable(3));
         System.out.println("Is colorable with 2 colors? " + g.isMColorable(2));
+        // int[] colors = {0,0,0,0};
+
+
+
+
 	}
 }
