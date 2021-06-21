@@ -52,11 +52,8 @@ public class StrongPasswordChecker {
                 }
             }
 
-            // If there are extra characters to be deleted than continue deleting them.
             for(int i=0; i<password.length; i++) {
-                // System.out.println("I "+i);
-
-
+                // If there are extra characters to be deleted than continue deleting them.
                 if(temp[i]>=3 && over_len>0) {
                     int need = temp[i] - 2;
                     temp[i] -= over_len;
@@ -72,16 +69,19 @@ public class StrongPasswordChecker {
             ops += Math.max(total_missing, left_over);
          }
 
-
         return ops;
-
- 		
  	}
 
 
  	public static void main(String[] args) {
- 		String password = "QQQQQ";
+ 		String password1 = "QQQQQ";
+        String password2 = "aA1";
+        String password3 = "1337C0d3";
+
  		StrongPasswordChecker strongPasswordChecker = new StrongPasswordChecker();
- 		System.out.println("Result "+strongPasswordChecker.check(password.toCharArray()));
+        
+ 		System.out.println("Result "+strongPasswordChecker.check(password1.toCharArray()));
+        System.out.println("Result "+strongPasswordChecker.check(password2.toCharArray()));
+        System.out.println("Result "+strongPasswordChecker.check(password3.toCharArray()));
  	}
 }
