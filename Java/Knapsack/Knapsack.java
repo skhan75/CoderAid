@@ -4,7 +4,6 @@
 	The goal is to get the maximum profit from the items in the knapsack. 
 	Each item can only be selected once as we dont have the multiple quantites of any item
 */
-
 public class Knapsack {
 	/*
 		Complexity: O(2^n)
@@ -98,7 +97,7 @@ public class Knapsack {
 				}
 			}
 		}
-		return dp[1][capacity];
+		return dp[n%2][capacity];
 	}
 	
 	public static void main(String[] args) {
@@ -122,6 +121,7 @@ public class Knapsack {
     	// Runtime --> O(NW) Space --> O(2n)~ O(n)
     	int maxProfit4 = ks.knapsackTimeAndSpaceOptimized(profits3, weights3, 50);
     	System.out.println("Total knapsack profit ---> " + maxProfit4);
+    	System.out.println("Total knapsack profit ---> " + knapsackTimeAndSpaceOptimized(profits1, weights1, 7));
 	}
 
 }
