@@ -86,7 +86,7 @@ public class EqualSubsetSumPartition {
 
 	 	// We need to find subsets with equal halved sum
 	 	sum /= 2;
-    	boolean[][] dp = new boolean[2][sum + 1];
+	 	boolean[][] dp = new boolean[2][sum + 1];
 	 
 	 	// Fill n Rows --> Populate the sum=0 column as true, as we can have 0 sum without including any element 
 	  	for(int i=0; i < 2; i++)
