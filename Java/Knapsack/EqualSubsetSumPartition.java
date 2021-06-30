@@ -108,7 +108,7 @@ public class EqualSubsetSumPartition {
 	 				dp[i%2][s] = dp[(i-1)%2][s - num[i]];
 	 		}
 	 	}
-	 	
+
 	 	return dp[(n-1)%2][sum];
 	 }
 	
