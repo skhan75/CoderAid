@@ -1,5 +1,3 @@
-import java.util.*;
-
 // We can use same weight multiple times, provided we get the maximum profit.
 public class UnboundedKnapsack {
 
@@ -7,23 +5,26 @@ public class UnboundedKnapsack {
 
 		int n = profits.length;
 
-		//Note that we use 1D array here which is different from classical knapsack 
-		// where we used 2D array. Here number of items never changes. 
-		// We always have all items available.
+		/*
+			Here dp[i] indicates the maximum profit we can achieve with a knapsack capacity of i.
+
+			Note that we use 1D array here which is different from classical knapsack 
+			where we used 2D array. Here number of items never changes. 
+			We always have all items available.
+		*/
 		int[] dp = new int[capacity + 1];
 
-		for(int w=1; w<=capacity; w++) {
-			for(int i=1; i<=n; i++) {
-				if(profits[i-1] <= w) {
-					dp[i] = Math.max(
-						profits[i-1] + dp[i-weights[i-1]],
-						dp[i-1]
+		for(int w=0; w<=capacity; w++) {
+			for(int i=0; i<n; i++) {
+				if(profits[i] <= w) {
+					dp[w] = Math.max(
+						dp[w],
+						profits[i] + dp[w-weights[i]]
 					);
 				}
 			}
 		}
 
-		System.out.println("DP "+Arrays.toString(dp));
 		return dp[capacity];
 	}
 
