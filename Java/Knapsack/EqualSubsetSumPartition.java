@@ -48,7 +48,7 @@ public class EqualSubsetSumPartition {
 
 	 	Boolean[][] dp = new Boolean[num.length][sum/2 + 1];
 	 	
-	 	return canPartitionOptimizedUtil(num, dp, sum/2, 0);
+	 	return canPartitionOptimizedTopDownUtil(num, dp, sum/2, 0);
 	 }
 
 	 private boolean canPartitionOptimizedTopDownUtil(int[] num, Boolean[][] dp, int sum, int currentIndex) {
@@ -69,6 +69,48 @@ public class EqualSubsetSumPartition {
 
 	 	return dp[currentIndex][sum];
 	 }
+
+	  /*
+	 	Dynamic Programming - Bottom Up
+	 	Runtime --> O(NS) Space --> O(2N) ~ O(N)
+	 */
+	 public boolean canPartitionOptimizedBottomUp(int[] num) {
+	 	int n = num.length;
+
+	 	int sum=0;
+	 	for(int i=0; i<num.length; i++) {
+	 		sum += num[i];
+	 	}
+
+	 	if(sum%2!=0) return false; 
+
+	 	// We need to find subsets with equal halved sum
+	 	sum /= 2;
+    	boolean[][] dp = new boolean[2][sum + 1];
+	 
+	 	// Fill n Rows --> Populate the sum=0 column as true, as we can have 0 sum without including any element 
+	  	for(int i=0; i < 2; i++)
+      		dp[i][0] = true;
+
+	 	// Fill 0th Row --> Populate all sum columns as false, when there is one element 
+	 	// Only if that one element is equal to the required sum, then mark it as true 
+	 	for(int s=1; s <= sum ; s++) {
+	    	dp[0][s] = (num[0] == s ? true : false);
+	    }
+
+	 	// Process all subsets for all sums 
+	 	for(int i=1; i<n; i++) {
+	 		for(int s=1; s<=sum; s++) {
+	 			// If we can get the sum already without current ith number, we take it from the dp 
+	 			if(dp[(i-1)%2][s]) 
+	 				dp[i%2][s] = dp[(i-1)%2][s];
+	 			else if(s >= num[i])
+	 				dp[i%2][s] = dp[(i-1)%2][s - num[i]];
+	 		}
+	 	}
+	 	
+	 	return dp[(n-1)%2][sum];
+	 }
 	
 
 	public static void main(String[] args) {
@@ -77,12 +119,11 @@ public class EqualSubsetSumPartition {
 		int[] input = {1, 1, 3, 4, 7};
 		System.out.println(sp.canPartitionRecursive(input));
 		System.out.println(sp.canPartitionOptimizedTopDown(input));
+		System.out.println(sp.canPartitionOptimizedBottomUp(input));
 
 		input = new int[]{2, 3, 4, 6};
 		System.out.println(sp.canPartitionRecursive(input));
 		System.out.println(sp.canPartitionOptimizedTopDown(input));
 	}
-
-
 
 }
