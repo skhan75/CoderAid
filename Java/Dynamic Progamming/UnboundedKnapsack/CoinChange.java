@@ -26,6 +26,15 @@ public class CoinChange {
 			}
 		}
 
+		// This loop can also be simplified as 
+		/*
+			for(int c=0; c<coins.length; c++) {
+				for(int m=coins[c]; m<=M; m++) {	
+					ways[m] += ways[m - coins[c]];		
+				}
+			}
+		*/
+
 		return ways[M];
 	}
 
@@ -33,8 +42,8 @@ public class CoinChange {
 	public static void main(String[] args) {
 		CoinChange coinChange = new CoinChange();
 
-		int[] coins = { 1, 5, 10 };
-		int M = 12;
+		int[] coins = { 2, 5, 10 };
+		int M = 25;
 		System.out.println("Number of ways are --> " + coinChange.getWays(coins, M));
 
 	}
