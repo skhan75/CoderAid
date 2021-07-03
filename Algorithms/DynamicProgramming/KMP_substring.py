@@ -11,10 +11,8 @@ def has_substring(main_string, pattern):
             j +=1
         else:
             if j != 0:
-                print (prefix_array[j])
                 j = prefix_array[j-1]
             else:
-                print ('here')
                 i += 1
     if j == len(pattern):
         return True
