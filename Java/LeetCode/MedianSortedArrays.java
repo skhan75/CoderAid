@@ -7,8 +7,7 @@ class MedianSortedArrays {
 
     // Time complexity is O(log(min(m,n))
     // Space complexity is O(1)
-    public double findMedianSortedArrays(int[] x, int[] y) {
-    
+    public double findMedianSortedArrays(int[] x, int[] y) { 
         int m = x.length;
         int n = y.length;
         
@@ -36,7 +35,7 @@ class MedianSortedArrays {
             int minRightY = (partitionY==n) ? Integer.MAX_VALUE : y[partitionY]; 
 
             if(maxLeftX <= minRightY && maxLeftY <= minRightX) {
-                //We have partitioned array at correct place
+                // We have partitioned array at correct place
                 // Now get max of left elements and min of right elements to get the median in case of even length combined array size
                 // or get max of left for odd length combined array size.
                 if((m+n)%2 == 0) {
@@ -52,8 +51,8 @@ class MedianSortedArrays {
         }
 
         throw new IllegalArgumentException();
+       
     }
-
 
     public static void main(String[] args) {
         MedianSortedArrays md = new MedianSortedArrays();
@@ -62,3 +61,5 @@ class MedianSortedArrays {
         System.out.println("Median of the arrays is "+ md.findMedianSortedArrays(nums1, nums2));  
     }
 }
+
+
