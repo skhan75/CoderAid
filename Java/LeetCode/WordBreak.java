@@ -8,7 +8,7 @@ public class WordBreak {
 		boolean[] visited = new boolean[s.length()];
 
 		queue.add(0);
-
+		
 		while(!queue.isEmpty()) {
 
 			int start = queue.poll();
@@ -23,7 +23,7 @@ public class WordBreak {
 			}
 			visited[start] = true;
 		}
-		
+
 		return false;
 	}
 
