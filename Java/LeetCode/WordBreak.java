@@ -27,6 +27,25 @@ public class WordBreak {
 		return false;
 	}
 
+	public boolean wordBreakDP(String s, List<String> wordDict) {
+
+		boolean[] dp = new boolean[s.length()+1];
+		Arrays.fill(dp, false);
+
+		// Null string is always present in the dictionary
+		dp[0] = true;
+
+		for(int i=1; i<=s.length(); i++) {
+			for(int j=0; j<i; j++) {
+				if(dp[j] && wordDict.contains(s.substring(j, i))) {
+					dp[i] = true;
+				}
+			}
+		}
+
+		return dp[s.length()];
+	}
+
 
 	public static void main(String[] args) {
 		WordBreak wb = new WordBreak();
@@ -37,5 +56,6 @@ public class WordBreak {
 		wordDict.add("code");
 
 		System.out.println(wb.wordBreakBfs(s, wordDict)); 
+		System.out.println(wb.wordBreakDP(s, wordDict)); 
 	}
 }
