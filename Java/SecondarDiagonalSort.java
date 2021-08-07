@@ -3,7 +3,7 @@ import java.util.*;
 public class SecondarDiagonalSort {
 	
 
-	public void diagonalSort(int[][] mat) {
+	public int[][] diagonalSort(int[][] mat) {
 
 		int m = mat[0].length;
 		int diagonalCount = 0;
@@ -46,21 +46,41 @@ public class SecondarDiagonalSort {
 			Collections.sort(dl);
 		}
 
-		for(List<Integer> dl : diagonals.values()) {
-			
-			System.out.println(dl);
-		}
 
-		// Now add the sorted diagonals back int the original matrix
-		for(int row=0; row<m; row++) {
-			for(int col=0; col<m; col++) {
-				// int diag = Math.abs(row-col);
-				// System.out.println(diag);
+		// Update upper half of the matrix 
+		for(int d=0; d<m; d++) {
+			int row = d;
+			int col = 0;
+			List<Integer> currentSortedDiagonals = diagonals.get(d);
+			while(row>=0) {
+				int element = currentSortedDiagonals.get(col);
+				mat[row][col] = element;
+				row--;
+				col++;
 			}
-			// System.out.println();
+			diagonalCount++;
 		}
 
+		// Update bottom half of the matrix
+		for(int d=1; d<m; d++) {
+			int row = m-1;
+			int col = d;
 
+			int i=0;
+			List<Integer> currentSortedDiagonals = diagonals.get(row+d); // 4 5 6
+			while(col<m && i<col) {
+				int element = currentSortedDiagonals.get(i);
+				mat[row][col] = element;
+				i++;	
+				row--;
+				col++;
+			}
+			diagonalCount++;
+		}
+
+	
+
+		return mat;
 
 	}
 
@@ -75,6 +95,12 @@ public class SecondarDiagonalSort {
 			{1,2,2,2} 
 		};
 
-		ds.diagonalSort(mat);
+		int[][] res = ds.diagonalSort(mat);
+		for(int i=0; i<res.length; i++) {
+			for(int j=0; j<res.length; j++) {
+				System.out.print(res[i][j] + " ");
+			}
+			System.out.println();
+		}
 	}
 }

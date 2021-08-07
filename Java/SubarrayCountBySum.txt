@@ -1,0 +1,49 @@
+Given an array of integers arr, a positive integer k, and an integer s, your task is to find the number of non-empty contiguous subarrays with length not greater than k and with a sum equal to s.
+
+Example
+
+For arr = [1, 0], k = 2, and s = 1, the output should be subarraysCountBySum(arr, k, s) = 2.
+
+There is 1 subarray among the contiguous subarrays of length 1 with sum equal to s = 1, and it is [1],
+There is 1 subarray among the contiguous subarrays of length 2 with sum equal to s = 1, and it is [1, 0].
+So the answer is 2.
+
+For arr = [1, 2, 4, -1, 6, 1], k = 3, and s = 6, the output should be subarraysCountBySum(arr, k, s) = 3.
+
+There is 1 subarray among the contiguous subarrays of length 1 with sum equal to s = 6, and it is [6],
+There is 1 subarray among the contiguous subarrays of length 2 with sum equal to s = 6, and it is [2, 4],
+There is 1 subarray among the contiguous subarrays of length 3 with sum equal to s = 6, and it is [-1, 6, 1].
+Note that the subarray [1, 2, 4, -1] would also sum to s, but its length is greater than k, so it's not applicable.
+
+So the answer is 3.
+
+Input/Output
+
+[execution time limit] 3 seconds (java)
+
+[input] array.integer arr
+
+An array of integers.
+
+Guaranteed constraints:
+2 ≤ arr.length ≤ 105,
+-109 ≤ arr[i] ≤ 109.
+
+[input] integer k
+
+A positive integer denoting the maximal length of the contiguous subarrays we'll be considering.
+
+Guaranteed constraints:
+1 ≤ k ≤ arr.length.
+
+[input] integer64 s
+
+An integer representing the sum we're looking for within the contiguous subarrays. Note, that this integer may not fit in 32-bit type and thus is provided in a 64-bit type.
+
+Guaranteed constraints:
+-1011 ≤ s ≤ 1011.
+
+[output] integer64
+
+The number of contiguous subarrays with the given sum.
+
