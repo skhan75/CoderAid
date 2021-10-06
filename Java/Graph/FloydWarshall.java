@@ -23,7 +23,7 @@ class FloydWarshall {
 		this.printSolution(solution);
 
 	}
-
+	
 	void printSolution(int dist[][]) {
         System.out.println("The following matrix shows the shortest "+
                          "distances between every pair of vertices");
