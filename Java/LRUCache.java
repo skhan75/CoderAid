@@ -1,29 +1,26 @@
+import java.util.*;
+
 class LRUCache {
 
 	private int capacity;
 	private int size;
-	private Map<Integer, DoublyLinkedNode> cache = null;
-	DoublyLinkedNode head, tail;
+	private Map<Integer, DoublyLinkedNode> cache = new HashMap<>();
+	private DoublyLinkedNode head, tail;
 
 	LRUCache(int capacity) {
-		this.capacity = 0;
+		this.capacity = capacity;
 		this.size = 0;
 		this.head = new DoublyLinkedNode();
 		this.tail = new DoublyLinkedNode();
-		this.cache = new HashMap<>();
 
-		head.next = tail;
-		tail.prev = head;
 	}
 
 	public int get(int key) {
 		DoublyLinkedNode node = cache.get(key);
-		if(node == null)
+		if(node == null) {
 			return -1;
-
-		// move the accessed node to the head
-		moveToHead(node);
-
+		}
+		moveLeastRecentToHead(node);
 		return node.value;
 	}
 
@@ -31,38 +28,26 @@ class LRUCache {
 		DoublyLinkedNode node = cache.get(key);
 
 		if(node == null) {
-			DoublyLinkedNode newNode = new DoublyLinkedNode();
-			newNode.key = key;
-			newNode.value = value;
-
-			cache.put(key, value);
-			addNode(newNode);
-
+			DoublyLinkedNode newNode = new DoublyLinkedNode(key, value);
+			cache.put(key, newNode);
+			addNodeToHead(newNode);
 			size++;
-
-			if(size > capacity){
-				// pop the least recent from tail
-				DoublyLinkedNode tail = popTail();
-				cache.remove(tail.key);
+			if(this.size > this.capacity) {
+				DoublyLinkedNode poppedNode = popTail();
+				cache.remove(poppedNode.getKey());
 				size--;
 			}
 		} else {
-			// just update the value
+			// update the key with the value
 			node.value = value;
-			moveToHead(node);
+			moveLeastRecentToHead(node);
 		}
 	}
 
-	private void moveToHead(DoublyLinkedNode node){
-		// First we remove the node
-		removeNode(node);
-		addNode(node);
-	}
 
-	private DoublyLinkedNode popTail() {
-		DoublyLinkedNode res = tail.prev;
-		removeNode(res);
-		return res;
+	private void moveLeastRecentToHead(DoublyLinkedNode node) {
+		removeNode(node);
+		addNodeToHead(node);
 	}
 
 	private void removeNode(DoublyLinkedNode node) {
@@ -71,14 +56,39 @@ class LRUCache {
 
 		prev.next = next;
 		next.prev = prev;
+	} 
+
+	private void addNodeToHead(DoublyLinkedNode node) {
+		node.prev = head;
+		node.next = head.next;
+		head.next = node;
+		head.next.prev = node;
 	}
 
+	private DoublyLinkedNode popTail() {
+		DoublyLinkedNode poppedNode = tail.prev;
+		removeNode(poppedNode);
+		return poppedNode;
+	}
 
 	static class DoublyLinkedNode {
-		int key;
-		int value;
-		DoublyLinkedNode head;
-		DoublyLinkedNode tail;
-	}
+		Integer key;
+		Integer value;
+		DoublyLinkedNode prev;
+		DoublyLinkedNode next;
 
+		DoublyLinkedNode(Integer key, Integer value) {
+			this.key = key;
+			this.value = value;
+		}
+
+		DoublyLinkedNode() {
+			this.key = null;
+			this.value = null;
+		}
+
+		public Integer getKey() {
+			return this.key;
+		}
+	}
 }
