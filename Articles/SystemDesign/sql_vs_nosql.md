@@ -36,3 +36,71 @@ The whole point of horizontal scaling is that each machine in your overall clust
 
 - By increasing the number of read replicas, a _trade-off_ is made between consistency and availability. Having more read servers leads to higher availability, but in turn sacrifices consistency (provided that updates are asynchronous) since there is a higher chance of accessing stale data.
 - Its not impossible to horizontally scale write-heavy SQL databases, looking for _Google Spanner_ and _Cockroach DB_, but its a very challenging problem and makes for a highly complex database architecture.
+
+## Relational queries are unbounded
+
+The third problem with RDBMS is that, by default, SQL queries are unbounded, meaning there is no inherent limit to the amount of data you can scan in a single request to your database, which also means there;s no inherent limit to how a single bad query can gobble up your resources and lock up your database.
+A simple example would be a query like `SELECT * FROM large_table` — a full table scan to retrieve all the rows. But that’s pretty obvious to see in your application code and less likely to consume all your database resources.
+
+A more nefarious example would be something like the following:
+
+```sql
+SELECT user_id, sum(amount) AS total_amount
+FROM orders
+GROUP BY user_id
+ORDER BY total_amount DESC
+LIMIT 5
+```
+
+The example also examines the `orders` table in an application to find the top 5 users by the amount spent. Application developer might think this isn't an expensive operation, as its only returning 5 rows. But think of the steps involved in this operation:
+
+- Scan the entire `orders` table
+- Group orders by the user_id and sum the order amount by user to find a total.
+- Return the top 5 results.
+  This is expensive on a number of different resources -- CPU, memory, and disk. And it's completely hidden from the developer.
+
+Aggregations are bear traps for the unwary, ready to take down your database right when you hit scale.
+
+## How NoSQL databases handle these relational problems
+
+In the previous section, we saw how relational databases run into problems as they scale. In this section, we’ll see how NoSQL databases like DynamoDB handle these problems. Unsurprisingly, they’re essentially the inverse of the problems listed above:
+
+- DynamoDB does not allow joins;
+- DynamoDB forces you to segment your data, allowing for easier horizontal scaling; and
+- DynamoDB puts explicit bounds on your queries.
+
+Again, let’s review each of these in order.
+
+### How NoSQL databases replaces joins
+
+The canonical way to model your data in a relational database is to [normalize](https://en.wikipedia.org/wiki/Database_normalization) your entities. Normalization is a complex subject that we won’t cover in depth here, but essentially you should avoid repeating any singular piece of data in a relational database. Rather, you should create a canonical record of the data and reference this canonical record whenever needed.
+
+When a design decision is involved, we often need to decide the extent to which tables should be **Normalized**. Generally speaking, normalized tables have:
+
+- Simpler schema
+- More standardized data
+- Carry less redundancy
+
+However, a proliferation of smaller tables also means that tracking data relations requires:
+
+- More diligence
+- Querying patterns also become more complex (more `JOINS`)
+
+For example, a customer in an e-commerce application may make multiple orders over the course of the year. Rather than storing all customer information on the order record itself, the order record would contain a `CustomerId` property which would point to the canonical customer record.
+
+![https://user-images.githubusercontent.com/6509926/71933607-34c66b00-3168-11ea-940f-1dc50fe5bf68.png](https://user-images.githubusercontent.com/6509926/71933607-34c66b00-3168-11ea-940f-1dc50fe5bf68.png)
+
+In the example above, Order #348901 has a `CustomerId` property with a value of `145`. This points to the record in the Customers table with an `Id` of `145`. If Customer #145 changes something about him, such as his name or address, the Order doesn't have to make corresponding changes.
+
+However, as noted above, this flexibility comes at a cost — joins require a lot of CPU and memory. Thus, to get rid of SQL joins, NoSQL needs to handle the three benefits of joins:
+
+1. Flexible data access
+2. Data integrity
+3. Storage efficiency
+
+Two of these are handled by specific _trade-offs_, while the third is less of a concern anymore.
+
+### How NoSQL compensates for the benefits of JOINS
+
+- NoSQL databases avoid the need for flexibility in your data access by requiring you to do planning up front. How will you read your data? How will you write your data? When working with a NoSQL database, you need to consider these questions thoroughly before designing your data model. Once you know your patterns you can design your database to handle these questions specifically.
+- The second trade off NoSQL database is _data integrity_ is now a n application level concern. While JOINS would allow you for a "write once, refer many" pattern for referenced items, you may need to denormalize and duplicate data in your database. For pieces of data that is unchanging, this is not a problem. But for mutable entities like `name` or `price` you may find yourself updating multiple records in the event of a change.
