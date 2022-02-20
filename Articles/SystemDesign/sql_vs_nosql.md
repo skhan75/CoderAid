@@ -103,4 +103,51 @@ Two of these are handled by specific _trade-offs_, while the third is less of a 
 ### How NoSQL compensates for the benefits of JOINS
 
 - NoSQL databases avoid the need for flexibility in your data access by requiring you to do planning up front. How will you read your data? How will you write your data? When working with a NoSQL database, you need to consider these questions thoroughly before designing your data model. Once you know your patterns you can design your database to handle these questions specifically.
-- The second trade off NoSQL database is _data integrity_ is now a n application level concern. While JOINS would allow you for a "write once, refer many" pattern for referenced items, you may need to denormalize and duplicate data in your database. For pieces of data that is unchanging, this is not a problem. But for mutable entities like `name` or `price` you may find yourself updating multiple records in the event of a change.
+- The second trade off NoSQL database is _data integrity_ is now a n application level concern. While JOINS would allow you for a "write once, refer many" pattern for referenced items, you may need to denormalize and duplicate data in your database. For pieces of data that is unchanging, this is not a problem. But for mutable entities like `name` or `price` you may find yourself updating multiple records in the event of a change. Denormalization of NoSQL databases leads to _Eventual Consistency_, which means it may be a possibility that, if there is a change in data, there may be a possibility that you may retrieve stale data, but its ensured that data will become consistent eventually.
+
+### Why are JOINS so much important
+
+It is much easier to query from a denormalized table(aka wide table), because all of the metrics and dimensions are already pre-joined.
+
+### Some issues with NoSQL databases
+
+- Given their large sizes, however, data processing for wide tables is slower and involved more upstream dependencies. Maintenance of data tables are more difficult, because there the unit of work is not as modular.
+- NoSQL databases are less storage efficient that their relational counterpart, but its mostly not a concern. When RDBMS were designed, storage was at more of a premium than compute. This is no longer the case -- storage prices have dropped to the floor, while Moore's Law is slowing down. Compute is the most valuable resource in your systems, so it makes sense optimize for compute over storage.
+
+### Why NoSQL databases can scale horizontally
+
+The main reason relational databases cannot scale horizontally is due to the flexibility of the query syntax. SQL allows you to add all sorts of conditions and filters on you data such that its impossible for the database system to know which pieces of your data will be fetched until your query is executed.
+
+As such, all data needs to be kept local on the same node, to avoid cross machine network calls when executing a query.
+
+**Remedy**: To avoid this problem, NoSQL databases require you to split up your data into smaller segments and perform all queries within one of these segments. This is common across all NoSQL databases. In DynamoDB and Cassandra, its called _partition key_. In MongoDB, its called _shard key_.
+
+**The easiest way to think of NoSQL database is a _hash table_ where the value of each key in the hash table is a _B-Tree_. The partition key is the key in the hash table and allows you to spread data across an unlimited number of nodes.**
+
+Without table relationships, data in NoSQL databases can be sharded across different data stores allowing for distributed databases. This makes horizontal scaling much easier, and very large amounts of data can be stored without having to purchase a single, expensive server.
+
+NoSQL databases can flexibly support both _read-heavy_ and _write-heavy_ systems. With data spread out across multiple shards/servers, hashing and consistent hashing are very important techniques for determining which shards to route the application queries to.
+
+**Example:** MongoDB uses a query router, which is a reverse proxy that accepts a query and routes it to the appropriate shard(s). The router then sends the query response back to the calling application. Note that, query router is very similar to load balancer.
+
+### Eventual Consistency of NoSQL systems
+
+NoSQL databases are typically designed for distributed use cases, and write-heavy systems can be supported by having multiple write shards for the same data partition (called peer-to-peer replication). However, the trade-off is a loss of strong consistency. After a write to a shard in a distributed NoSQL cluster, there will be a small delay before that update can be propagated to other replicas. During this time, reading from a replica can result in accessing stale data. This weakness of the data eventually being up-to-date, a.k.a eventual consistency, was actually seen earlier with master-slave replication (which can be used for SQL or NoSQL). Eventual consistency isn't exactly a fault of NoSQL databases, but distributed databases in general. A single shard NoSQL database can be strongly consistent, but to fully take advantage of the scalability benefits of NoSQL, the database should be set up as a distributed cluster:
+
+- NoSQL databases are designed to run intelligently on clusters.
+- NoSQL databases had to sacrifice Strong consistency, ACID Transactions, and much more to scale horizontally over a cluster and across the data centers. The data with NoSQL databases is more eventually consistent as opposed to being strongly consistent.
+- When working with relational databases, a big chunk of our time goes into learning how to design well-normalized tables, setting up relationships, trying to minimize joins, and so on.
+
+## Cons of NoSQL Databases
+
+### Inconsistency
+
+Since an entity is spread throughout the database, one has to update the new values of the entity at all places.
+
+Failing to do so, makes the entity inconsistent. This is not a problem with relational databases. since they keep the data normalized (at unique places).
+
+### No support for ACID transactions
+
+Also, NoSQL distributed databases don't provide ACID transactions
+
+Transactions in distributed systems come with terms and conditions applied.
