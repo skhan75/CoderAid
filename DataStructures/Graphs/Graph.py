@@ -32,7 +32,6 @@ class Graph:
         if self.is_directed is not True:
             v_vertex.add_adjacent_vertices(edge, u_vertex)
 
-
 class Edge:
 
     def __init__(self, u_vertex, v_vertex, weight, is_directed):
