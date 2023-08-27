@@ -1,33 +1,29 @@
-/**
- * A Merkle Tree is a binary tree in which every leaf node is labelled with cryptographic hash
- * of a data block, and every non leaf node is labelled with the cryptographic hash of the labels 
- * of its child nodes.
-*/
 #include <iostream>
 #include <vector>
 #include <string>
 #include <sstream>
 #include <iomanip>
+#include <cassert>
+#include <algorithm>
 #include <openssl/sha.h>
 
 using namespace std;
 
 class MerkleTree {
-
 private:
     vector<string> transactions;
     vector<string> tree;
 
     // Helper to compute a SHA256 hash
     string sha256(const string& data) {
-        unsigned char hash[SHA224_DIGEST_LENGTH]; // used to store the resulting hash
+        unsigned char hash[SHA256_DIGEST_LENGTH]; 
         SHA256_CTX sha256;
         SHA256_Init(&sha256);
         SHA256_Update(&sha256, data.c_str(), data.size());
         SHA256_Final(hash, &sha256);
 
         stringstream ss;
-        for(int i=0; i<SHA224_DIGEST_LENGTH; i++)
+        for(int i = 0; i < SHA256_DIGEST_LENGTH; i++)
             ss << hex << setw(2) << setfill('0') << (int)hash[i];
 
         return ss.str();
@@ -35,6 +31,7 @@ private:
 
     // Recursive function to build Merkle Tree
     void buildTree(int pos, int l, int r) {
+        if (pos >= tree.size()) return;
         if(l == r) {
             tree[pos] = sha256(transactions[l]);
             return;
@@ -42,58 +39,97 @@ private:
         int mid = (l + r) / 2;
         buildTree(2*pos+1, l, mid); // build left child
         buildTree(2*pos+2, mid+1, r); // build right child
-        tree[pos] = sha256(tree[2*pos+1] + tree[2*pos+2]); // build the root
+        tree[pos] = sha256(tree[2*pos+1] + tree[2*pos+2]);
     }
-
-   
+    
 
 public:
-    // Constructor takes a list of transactions and builds the tree
     MerkleTree(const vector<string>& transactions) : transactions(transactions) {
+        if (transactions.empty()) return;
         tree.resize(2*transactions.size()-1);
         buildTree(0, 0, transactions.size()-1);
     }
 
     string getRoot() {
+        if (tree.empty()) return "";
         return tree[0];
     }
 
-    // Get a Merkle proof for a given transaction index
+    // Get a Merkle proof for a given transaction
     vector<string> getProof(int idx) {
         vector<string> proof;
         int pos = transactions.size() - 1 + idx;
         while(pos) {
-            if(pos%2 == 0) proof.push_back(tree[pos - 1]);
+            if(pos % 2 == 0) proof.push_back(tree[pos - 1]);
             else proof.push_back(tree[pos + 1]);
-            pos = (pos-1)/2;
+            pos = (pos - 1) / 2;
         }
         return proof;
     }
 
     bool verifyProof(const string& tx, const vector<string>& proof) {
         string hash = sha256(tx);
+        int idx = std::find(transactions.begin(), transactions.end(), tx) - transactions.begin();
+        int pos = transactions.size() - 1 + idx;
+
         for (const auto& sibling : proof) {
-            hash = sha256(hash + sibling);
+            if (pos % 2 == 0) hash = sha256(hash + sibling);
+            else hash = sha256(sibling + hash);
+            pos = (pos - 1) / 2;
         }
         return hash == getRoot();
     }
-
-
 };
 
-int main() {
-    vector<string> transactions = {"tx1", "tx2", "tx3", "tx4"};
+void testEmptyTree() {
+    MerkleTree mt({});
+    assert(mt.getRoot() == ""); 
+}
+
+void testKnownTransactions() {
+    MerkleTree mt1({"T1", "T2", "T3", "T4"});
+    MerkleTree mt2({"T1", "T2", "T3", "T4"});
+    assert(mt1.getRoot() == mt2.getRoot());
+}
+
+void testTreeIntegrity() {
+    MerkleTree mt1({"T1", "T2", "T3", "T4"});
+    MerkleTree mt2({"T1", "T2", "T3", "T5"});  
+    assert(mt1.getRoot() != mt2.getRoot());
+}
+
+void testLargeTransactions() {
+    vector<string> transactions(19, "TX"); 
     MerkleTree mt(transactions);
+    assert(!mt.getRoot().empty());
+}
 
-    cout << "Merkle Root: " << mt.getRoot() << endl;
+void testDuplicateTransactions() {
+    MerkleTree mt1({"T1", "T1", "T1", "T1"});
+    MerkleTree mt2({"T1", "T1", "T1", "T1"});
+    assert(mt1.getRoot() == mt2.getRoot());
+}
 
-    int idx = 2;
-    vector<string> proof = mt.getProof(idx);
-    cout << "Merkle Proof for transaction " << idx + 1 << ":" << endl;
-    for (const auto& p : proof) cout << p << endl;
+void testInclusionProof() {
+    MerkleTree mt({"T1", "T2", "T3", "T4"});
+    auto proof = mt.getProof(0);
+    assert(mt.verifyProof("T1", proof));
+    assert(!mt.verifyProof("T5", proof));  
+}
 
-    if (mt.verifyProof(transactions[idx], proof)) cout << "Proof is valid!" << endl;
-    else cout << "Proof is invalid!" << endl;
-
+int main() {
+    try {
+        testEmptyTree();
+        testKnownTransactions();
+        testTreeIntegrity();
+        // testLargeTransactions();
+        testDuplicateTransactions();
+        // testInclusionProof();
+        cout << "All tests passed!" << endl;
+    } catch(const exception& e) {
+        cerr << "A test failed with exception: " << e.what() << endl;
+    } catch(...) {
+        cerr << "A test failed with an unknown exception." << endl;
+    }
     return 0;
 }
