@@ -67,9 +67,10 @@ public:
         return proof;
     }
 
+    // Verifies if the transaction exists in the Merkle Tree
     bool verifyProof(const string& tx, const vector<string>& proof) {
         string hash = sha256(tx);
-        int idx = std::find(transactions.begin(), transactions.end(), tx) - transactions.begin();
+        int idx = find(transactions.begin(), transactions.end(), tx) - transactions.begin();
         int pos = transactions.size() - 1 + idx;
 
         for (const auto& sibling : proof) {
